@@ -734,8 +734,24 @@ try {
         /* ========================================================================
            MAIN CONTENT & TOP NAVBAR STYLES
         ======================================================================== */
-        .main-content { flex-grow: 1; display: flex; flex-direction: column; overflow-y: auto; transition: background-color 0.3s ease; background-color: #f3f4f6; }
+        .main-content { flex-grow: 1; display: flex; flex-direction: column; overflow-y: auto; transition: background-color 0.3s ease; background-color: #f3f4f6; position: relative; }
         .top-navbar { background-color: #ffffff; padding: 20px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.03); transition: 0.3s; }
+        
+        /* Smooth Section Transitions */
+        .content-section { 
+            opacity: 0; 
+            visibility: hidden; 
+            transition: opacity 0.3s ease, visibility 0.3s ease; 
+            position: absolute; 
+            width: 100%; 
+            height: 100%; 
+            overflow-y: auto; 
+            padding: 30px;
+        }
+        .content-section.show { 
+            opacity: 1; 
+            visibility: visible; 
+        }
         .toggle-btn { font-size: 20px; color: #4b5563; cursor: pointer; transition: color 0.3s; }
         .toggle-btn:hover { color: #111827; }
         
@@ -752,7 +768,7 @@ try {
         .user-profile i { font-size: 24px; color: #3b82f6; }
 
         /* Overview Dashboard Cards */
-        .dashboard-container, .task-container, .company-container { padding: 30px; }
+        .dashboard-container, .task-container, .company-container { }
         .page-title { font-size: 24px; font-weight: 700; margin-bottom: 24px; transition: 0.3s;}
         .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
         .card { background-color: #ffffff; padding: 24px; border-radius: 8px; box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.03); display: flex; align-items: center; justify-content: space-between; border: 1px solid #e5e7eb; transition: 0.3s;}
@@ -760,10 +776,7 @@ try {
         .card-info h2 { font-size: 28px; transition: 0.3s;}
         .card-icon { background-color: #eff6ff; width: 50px; height: 50px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 20px; color: #3b82f6; transition: 0.3s;}
 
-        /* ========================================================================
-           USER LIST SECTION & TABLE STYLES
-        ======================================================================== */
-        #userListSection { display: none; padding: 30px; }
+        /* USER LIST SECTION & TABLE STYLES */
         .user-list-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 25px; }
         .user-list-title h1 { font-size: 26px; font-weight: 800; margin-bottom: 4px; letter-spacing: -0.5px; transition: 0.3s;}
         .user-list-title p { font-size: 11px; color: #6b7280; font-weight: 500; }
@@ -807,7 +820,6 @@ try {
         /* ========================================================================
            COMPANY & ORGANIZATION STYLES (NEW DESIGN)
         ======================================================================== */
-        #companySection, #accountsClientsSection { display: none; }
         
         .comp-header-title h1 { font-size: 26px; font-weight: 800; margin-bottom: 4px; letter-spacing: -0.5px; transition: 0.3s; color: #111827;}
         .comp-header-title p { font-size: 13px; color: #6b7280; font-weight: 500; }
@@ -885,7 +897,6 @@ body.dark-mode .comp-info-subtext { color: #94a3b8; }
         /* ========================================================================
            TASK MANAGEMENT STYLES
         ======================================================================== */
-        #taskManagementSection { display: none; }
         
         .task-header-title h1 { font-size: 26px; font-weight: 800; margin-bottom: 4px; letter-spacing: -0.5px; transition: 0.3s; color: #111827;}
         .task-header-title p { font-size: 13px; color: #6b7280; font-weight: 500; }
@@ -1005,7 +1016,7 @@ body.dark-mode .comp-info-subtext { color: #94a3b8; }
         .desig-text { color: #374151; }
 
         /* Coming Soon Fallback Page */
-        .coming-soon-container { display: none; flex-direction: column; justify-content: center; align-items: center; height: 70vh; text-align: center; }
+        .coming-soon-container { flex-direction: column; justify-content: center; align-items: center; height: 70vh; text-align: center; }
         .coming-soon-icon { font-size: 60px; color: #9ca3af; margin-bottom: 20px; }
         .coming-soon-title { font-size: 28px; font-weight: 700; margin-bottom: 10px; transition: 0.3s;}
         .coming-soon-text { color: #6b7280; font-size: 15px; max-width: 400px; }
@@ -1142,7 +1153,7 @@ body.dark-mode .comp-info-subtext { color: #94a3b8; }
         <ul class="sidebar-menu">
             <li class="active" onclick="showDashboard(this)">
                 <i class="fa-solid fa-table-cells-large"></i>
-                <a href="super_admin_dashboard.php">Dashboard</a>
+                <a href="#">Dashboard</a>
             </li>
 
             <li class="dropdown-item" id="userMenu">
@@ -1204,7 +1215,7 @@ body.dark-mode .comp-info-subtext { color: #94a3b8; }
             </div>
         </div>
 
-        <div class="dashboard-container" id="mainDashboardContent">
+        <div class="dashboard-container content-section show" id="mainDashboardContent">
             <h1 class="page-title">Overview</h1>
             <div class="cards-grid">
                 <div class="card"><div class="card-info"><h4>Total Admins</h4><h2>05</h2></div><div class="card-icon"><i class="fa-solid fa-user-shield"></i></div></div>
@@ -1213,7 +1224,7 @@ body.dark-mode .comp-info-subtext { color: #94a3b8; }
             </div>
         </div>
 
-        <div id="userListSection">
+        <div id="userListSection" class="content-section">
             <div class="user-list-header">
                 <div class="user-list-title">
                     <h1>User List</h1>
@@ -1305,7 +1316,7 @@ body.dark-mode .comp-info-subtext { color: #94a3b8; }
             </div>
         </div>
 
-        <div class="dashboard-container" id="taskManagementSection" style="display:none;">
+        <div class="dashboard-container content-section" id="taskManagementSection">
             <div class="user-list-header" style="margin-bottom: 0;">
                 <div class="task-header-title">
                     <h1>Task Management</h1>
@@ -1452,7 +1463,7 @@ body.dark-mode .comp-info-subtext { color: #94a3b8; }
             </div>
         </div>
 
-        <div class="company-container" id="companySection" style="display:none;">
+        <div class="company-container content-section" id="companySection">
             <div class="user-list-header" style="margin-bottom: 20px;">
                 <div class="comp-header-title">
                     <h1>Company Database</h1>
@@ -1544,7 +1555,7 @@ body.dark-mode .comp-info-subtext { color: #94a3b8; }
             </div>
         </div>
 
-        <div class="company-container" id="accountsClientsSection" style="display:none;">
+        <div class="company-container content-section" id="accountsClientsSection">
             <div class="user-list-header" style="margin-bottom: 20px;">
                 <div class="comp-header-title">
                     <h1>Accounts & Clients</h1>
@@ -1588,7 +1599,7 @@ body.dark-mode .comp-info-subtext { color: #94a3b8; }
             </div>
         </div>
 
-        <div class="company-container" id="dealPipelineSection" style="display:none;">
+        <div class="company-container content-section" id="dealPipelineSection">
             <div class="user-list-header" style="margin-bottom: 20px;">
                 <div class="comp-header-title">
                     <h1>Deal Pipeline</h1>
@@ -1632,7 +1643,7 @@ body.dark-mode .comp-info-subtext { color: #94a3b8; }
             </div>
         </div>
 
-        <div class="coming-soon-container" id="comingSoonSection">
+        <div class="coming-soon-container content-section" id="comingSoonSection">
             <i class="fa-solid fa-person-digging coming-soon-icon"></i>
             <h1 class="coming-soon-title" id="comingSoonTitle">Feature Coming Soon</h1>
             <p class="coming-soon-text">Stay tuned!</p>
@@ -2328,7 +2339,7 @@ body.dark-mode .comp-info-subtext { color: #94a3b8; }
                     if(dealBtn) showDealPipeline(dealBtn);
                 } else if(document.getElementById('userListSection')) {
                     hideAllSections();
-                    document.getElementById('userListSection').style.display = 'block';
+                    document.getElementById('userListSection').classList.add('show');
                     
                     document.querySelectorAll('.sidebar-menu .active, .sidebar-menu .active-main, .sidebar-menu .active-sub').forEach(el => {
                         el.classList.remove('active', 'active-main', 'active-sub');
@@ -2409,49 +2420,49 @@ body.dark-mode .comp-info-subtext { color: #94a3b8; }
             const sections = ['mainDashboardContent', 'userListSection', 'taskManagementSection', 'companySection', 'accountsClientsSection', 'dealPipelineSection', 'comingSoonSection'];
             sections.forEach(id => {
                 const el = document.getElementById(id);
-                if (el) el.style.display = 'none';
+                if (el) el.classList.remove('show');
             });
         }
 
         function showDashboard(el = null) {
             hideAllSections();
             const dashboardSec = document.getElementById('mainDashboardContent');
-            if(dashboardSec) dashboardSec.style.display = 'block';
+            if(dashboardSec) dashboardSec.classList.add('show');
             if(el) setActiveSidebar(el);
         }
 
         function showUserList(el = null) {
             hideAllSections();
             const userList = document.getElementById('userListSection');
-            if(userList) userList.style.display = 'block';
+            if(userList) userList.classList.add('show');
             if(el) setActiveSidebar(el);
         }
 
         function showTaskManagement(el = null) {
             hideAllSections();
             const taskSec = document.getElementById('taskManagementSection');
-            if(taskSec) taskSec.style.display = 'block';
+            if(taskSec) taskSec.classList.add('show');
             if(el) setActiveSidebar(el);
         }
 
         function showCompanyOrg(el = null) {
             hideAllSections();
             const compSec = document.getElementById('companySection');
-            if(compSec) compSec.style.display = 'block';
+            if(compSec) compSec.classList.add('show');
             if(el) setActiveSidebar(el);
         }
 
         function showAccountsClients(el = null) {
             hideAllSections();
             const clSec = document.getElementById('accountsClientsSection');
-            if(clSec) clSec.style.display = 'block';
+            if(clSec) clSec.classList.add('show');
             if(el) setActiveSidebar(el);
         }
 
         function showDealPipeline(el = null) {
             hideAllSections();
             const dealSec = document.getElementById('dealPipelineSection');
-            if(dealSec) dealSec.style.display = 'block';
+            if(dealSec) dealSec.classList.add('show');
             if(el) setActiveSidebar(el);
         }
 
@@ -2459,7 +2470,7 @@ body.dark-mode .comp-info-subtext { color: #94a3b8; }
             hideAllSections();
             const comingSoonSec = document.getElementById('comingSoonSection');
             if(comingSoonSec) {
-                comingSoonSec.style.display = 'flex';
+                comingSoonSec.classList.add('show');
                 if(pageName !== 'Module') {
                     document.getElementById('comingSoonTitle').innerText = pageName + ' - Coming Soon!';
                 } else {
